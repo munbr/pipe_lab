@@ -11,11 +11,20 @@ struct PIPE
 
 void create_pipe()
 {
+    PIPE pipe('pipa', 0, 0, 0);
+}
+PIPE edit_pipe()
+{
+    pipe.name('pipa');
+
+
 
 }
 
 int main()
 {
+    create_pipe;
+    pipe.name('pipa')l;
 
 
 }
