@@ -11,11 +11,13 @@ struct CS
     vector<int> num_on_workshops;
     string station_class;
 };
+
 CS create_cs()
 {
     CS cs = {};
     return cs;
 }
+
 CS settings_cs(CS& cs)
 {
     system("clear");
@@ -44,6 +46,30 @@ CS settings_cs(CS& cs)
     cout << "Задайте характеристику КС:" << endl;
     cin.ignore();
     getline(cin,cs.station_class);
+}
+void edit_cs(CS& cs)
+{
+    system("clear");
+    cout << "Выберите, что вы хотите отредактировать" << endl;
+    cout << "1 - изменить работающие цеха\n" << "0 - закончить редактирование" << endl;
+    int x;
+    cin >> x;
+    switch (x)
+    {
+    case 1:
+        for(int i = 0; i < cs.num_workshops; i++)
+        {
+            cout << "Работает ли цех " << i+1 <<  "?" << endl;
+            cout << "Введите 1 если да, 0 если нет" << endl;
+            int z;
+            cin >> z;
+            if ()
+        }
+        break;
+    
+    default:
+        break;
+    } 
 }
 
 struct PIPE
