@@ -1,7 +1,8 @@
-#include <iostream>
+#include<iostream>
 #include<string>
 #include<cstdlib>
 #include<vector>
+#include<algorithm>
 using namespace std;
 
 struct CS
@@ -24,9 +25,14 @@ CS settings_cs(CS& cs)
     cout << "Задайте имя КС:" << endl;
     cin.ignore();
     getline(cin,cs.name);
-    cout << "Задайте кол-во цехов:" << endl;
-    cin >> cs.num_workshops;
+    int countWorkshops = 0;
+    while(countWorkshops <= 0)
+    {
+        cout << "Задайте кол-во цехов:" << endl;
+        cin >> cs.num_workshops;
+    }
     cout << "Выберите какие цеха в работе:" << endl;
+
     for (int i = 1; i <= cs.num_workshops; i++)
     {
         cout << "В работе ли " << i << " цех?" << endl;
@@ -46,6 +52,7 @@ CS settings_cs(CS& cs)
     cout << "Задайте характеристику КС:" << endl;
     cin.ignore();
     getline(cin,cs.station_class);
+    return cs;
 }
 void edit_cs(CS& cs)
 {
@@ -63,7 +70,14 @@ void edit_cs(CS& cs)
             cout << "Введите 1 если да, 0 если нет" << endl;
             int z;
             cin >> z;
-            if ()
+            if (z == 1)
+            {
+                cs.num_on_workshops[i] = z;
+            }
+            else
+            {
+                cs.num_on_workshops[i] = z;
+            }
         }
         break;
     
@@ -149,22 +163,29 @@ int main()
 {
     bool flag = 1;
     PIPE pipe;
-    PIPE new_pipe;
+    CS cs;
     while (flag != 0)
     {
-        cout << "Выберите опцию\n" << "1 - создать трубу\n"  << "2 - редактировать трубу\n" << "3 - просмотреть все элементы\n"<< "4 - выход из программы" << endl;
+        cout << "Выберите опцию\n" << "1 - создать трубу\n"  << "2 - редактировать трубу\n" << "3 - создать КС\n" << "4 - редактировать консоль\n" << "5 - посмотреть все элементы\n" << "0 - выйти из программы" << endl;
         int option;
         cin >> option;
         switch (option)
         {
         case 1:
             pipe = create_pipe();
-            new_pipe = settings_pipe(pipe);
+            pipe = settings_pipe(pipe);
             break;
         case 2:
             edit_pipe(pipe);
-                break;
+            break;
         case 3:
+            cs = create_cs();
+            cs = settings_cs(cs);
+            break;
+        case 4:
+            edit_cs(cs);
+            break;
+        case 5:
             system("clear");
             cout << "Название трубы - " << pipe.name << endl;
             cout << "Диаметр трубы - " << pipe.pipe_length << endl;
@@ -177,8 +198,12 @@ int main()
             {
                 cout << "Труба не работает" << endl;
             }
+            cout << "Название КС - " << cs.name << endl;
+            cout << "Кол-во цехов - " << cs.num_workshops << endl;
+            cout << "Кол-во цехов в работе - " << count(cs.num_on_workshops.begin(), cs.num_on_workshops.end(), 1) << endl;
+            cout << "Характеристика КС - " << cs.station_class << endl;
             break;
-        case 4:
+        case 0:
             flag = 0;
             break;
 
