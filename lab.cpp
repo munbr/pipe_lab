@@ -167,8 +167,8 @@ void save_pipe_cs(const CS& ks, const PIPE& pipe)
     {
 
         file << ks.name << endl;
-        file << ks.num_workshops;
-        file << ks.station_class;
+        file << ks.num_workshops << endl;
+        file << ks.station_class << endl;
         file << ks.num_on_workshops.size() << endl;
         for (int val : ks.num_on_workshops)
         {
@@ -176,6 +176,10 @@ void save_pipe_cs(const CS& ks, const PIPE& pipe)
         }
 
         file << endl;
+        file << pipe.pipe_diam << endl;
+        file << pipe.pipe_length << endl;
+        file << pipe.name << endl;
+        file << pipe.pipe_tech << endl;
         file.close(); 
         cout << "Успешное сохранение" << endl;
 
@@ -183,6 +187,42 @@ void save_pipe_cs(const CS& ks, const PIPE& pipe)
     else
     {
         cout << "Ошибка открытия файла для записи" << endl;
+    }
+
+}
+
+void load_cs_pipe(CS cs, PIPE pipe)
+{
+    ifstream file("save.txt");
+
+    if (file.is_open())
+    {
+        file.ignore();
+        getline(file, cs.name);
+        file >> cs.num_workshops;
+        file.ignore();
+        getline(file,cs.station_class);
+
+        size_t cs_num_on_workshops_size = 0;
+        file >> cs_num_on_workshops_size;
+        cs.num_on_workshops.resize(cs_num_on_workshops_size);
+        for (size_t i = 0; i < cs_num_on_workshops_size; i++)
+        {
+            file >> cs.num_on_workshops[i];
+        }
+        file >> pipe.pipe_diam;
+        file >> pipe.pipe_length;
+        file.ignore();
+        getline(file, pipe.name);
+        file >> pipe.pipe_tech;
+        file.close();
+
+        cout << "Данные успешно загружены" << endl;
+
+    }
+    else
+    {
+        cout << "При загрузке данных произошла ошибка" << endl;
     }
 
 }
