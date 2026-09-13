@@ -233,7 +233,7 @@ int main()
     CS cs;
     while (flag != 0)
     {
-        cout << "Выберите опцию\n" << "1 - создать трубу\n"  << "2 - редактировать трубу\n" << "3 - создать КС\n" << "4 - редактировать консоль\n" << "5 - посмотреть все элементы\n" << "0 - выйти из программы" << endl;
+        cout << "Выберите опцию\n" << "1 - создать трубу\n"  << "2 - редактировать трубу\n" << "3 - создать КС\n" << "4 - редактировать консоль\n" << "5 - посмотреть все элементы\n" << "6 - сохранить элементы\n"  << "7 - загрузить элементы\n" << "0 - выйти из программы" << endl;
         int option;
         cin >> option;
         switch (option)
@@ -271,9 +271,12 @@ int main()
             cout << "Характеристика КС - " << cs.station_class << endl;
             break;
         case 6:
-            ofstream outFile("savedProgramm.txt");
-            
+            system("clear");
+            save_pipe_cs(cs, pipe);
             break;
+        case 7:
+            system("clear");
+            load_cs_pipe(cs, pipe);
         case 0:
             flag = 0;
             break;
