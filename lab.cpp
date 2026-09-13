@@ -3,6 +3,7 @@
 #include<cstdlib>
 #include<vector>
 #include<algorithm>
+#include<fstream>
 using namespace std;
 
 struct CS
@@ -159,6 +160,32 @@ void edit_pipe(PIPE& p)
     cout << "Труба " << p.name << " отредактирована" << endl;
 }
 
+void save_pipe_cs(const CS& ks, const PIPE& pipe)
+{
+    ofstream file("save.txt");
+    if (file.is_open())
+    {
+
+        file << ks.name << endl;
+        file << ks.num_workshops;
+        file << ks.station_class;
+        file << ks.num_on_workshops.size() << endl;
+        for (int val : ks.num_on_workshops)
+        {
+            file << val << " ";
+        }
+
+        file << endl;
+        file.close(); 
+        cout << "Успешное сохранение" << endl;
+
+    }
+    else
+    {
+        cout << "Ошибка открытия файла для записи" << endl;
+    }
+
+}
 int main()
 {
     bool flag = 1;
@@ -202,6 +229,10 @@ int main()
             cout << "Кол-во цехов - " << cs.num_workshops << endl;
             cout << "Кол-во цехов в работе - " << count(cs.num_on_workshops.begin(), cs.num_on_workshops.end(), 1) << endl;
             cout << "Характеристика КС - " << cs.station_class << endl;
+            break;
+        case 6:
+            ofstream outFile("savedProgramm.txt");
+            
             break;
         case 0:
             flag = 0;
