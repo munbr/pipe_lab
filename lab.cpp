@@ -27,10 +27,13 @@ CS settings_cs(CS& cs)
     cin.ignore();
     getline(cin,cs.name);
     int countWorkshops = 0;
+    cout << "Задайте кол-во цехов:" << endl;
+    cin >> countWorkshops;
     while(countWorkshops <= 0)
     {
-        cout << "Задайте кол-во цехов:" << endl;
+        cout << "Ошибка. Задайте осмысленное кол-во цехов:" << endl;
         cin >> cs.num_workshops;
+        countWorkshops = cs.num_workshops;
     }
     cout << "Выберите какие цеха в работе:" << endl;
 
@@ -40,6 +43,11 @@ CS settings_cs(CS& cs)
         cout << "Введите 0 если цех не запущен, введите 1 если цех в работе" << endl;
         int check;
         cin >> check;
+        while (check < 0 | check > 1)
+        {
+            cout << "Ошибка. Введите 0 если цех не запущен, введите 1 если цех в работе" << endl;
+            cin >> check;
+        }
         if (check == 0)
         {
             cs.num_on_workshops.push_back(0);
@@ -58,26 +66,36 @@ CS settings_cs(CS& cs)
 void edit_cs(CS& cs)
 {
     system("clear");
-    cout << "Выберите, что вы хотите отредактировать" << endl;
-    cout << "1 - изменить работающие цеха\n" << "0 - закончить редактирование" << endl;
-    int x;
-    cin >> x;
-    switch (x)
+    cout << "Выберите, что вы хотите отредактировать?" << endl;
+    cout << "1 - Изменить работающие цеха.\n" << "0 - Закончить редактирование." << endl;
+    int check;
+    cin >> check;
+    while (check < 0 | check > 1)
+    {
+        cout << "Ошибка.\n" << "Выберите, что вы хотите отредактировать?\n" << "1 - изменить работающие цеха\n" << "0 - закончить редактирование" << endl;
+        cin >> check;
+    }
+    switch (check)
     {
     case 1:
         for(int i = 0; i < cs.num_workshops; i++)
         {
             cout << "Работает ли цех " << i+1 <<  "?" << endl;
-            cout << "Введите 1 если да, 0 если нет" << endl;
-            int z;
-            cin >> z;
-            if (z == 1)
+            cout << "Введите 1 если да, 0 если нет." << endl;
+            int isWork;
+            cin >> isWork;
+            while (isWork < 0 | isWork > 1)
             {
-                cs.num_on_workshops[i] = z;
+                cout << "Ошибка.\n" << "Работает ли цех " << i+1 <<  "?\n" << "Введите 1 если да, 0 если нет." << endl;
+                cin >> isWork;
+            }
+            if (isWork == 1)
+            {
+                cs.num_on_workshops[i] = isWork;
             }
             else
             {
-                cs.num_on_workshops[i] = z;
+                cs.num_on_workshops[i] = isWork;
             }
         }
         break;
@@ -105,15 +123,33 @@ PIPE settings_pipe(PIPE& pipe)
     cout << "Задайте имя трубы:" << endl;
     cin.ignore();
     getline(cin,pipe.name);
+
     cout << "Задайте длину трубы:" << endl;
     cin >> pipe.pipe_length;
+    while(pipe.pipe_length <= 0)
+    {
+        cout << "Ошибка.\n" << "Задайте осмысленную длину трубы:" << endl;
+        cin >> pipe.pipe_length;
+    }
+
     cout << "Задайте диаметр трубы:" << endl;
     cin >> pipe.pipe_diam;
+    while(pipe.pipe_diam <= 0)
+    {
+        cout << "Ошибка.\n" << "Задайте осмысленный диаметр трубы:" << endl;
+        cin >> pipe.pipe_diam;
+    }
+
     cout << "В работе ли труба?" << endl;
     cout << "Выберете 0 - если труба в ремонте, 1 - если труба работоспособна" << endl;
-    int z;
-    cin >> z;
-    if(z == 1)
+    int isBreak;
+    cin >> isBreak;
+    while(isBreak < 0 | isBreak > 1)
+    {
+        cout << "Ошибка.\n" << "В работе ли труба?\n" << "Выберете 0 - если труба в ремонте, 1 - если труба работоспособна." << endl;
+        cin >> isBreak;   
+    }
+    if(isBreak == 1)
     {
         pipe.pipe_tech = 1;
     }
@@ -132,15 +168,25 @@ void edit_pipe(PIPE& p)
     while (flag != 0)
     {
     cout << "Выберите, что вы хотите отредактировать\n" << "1 - в ремонте ли труба\n" <<"0 - закончить редактирование" << endl;
-        int x;
-        cin >> x;
-        switch (x)
+        int check;
+        cin >> check;
+        while(check < 0 | check > 1)
         {
-            case 1:
+            cout << "Ошибка.\n" << "Выберите, что вы хотите отредактировать\n" << "1 - в ремонте ли труба\n" <<"0 - закончить редактирование" << endl;
+            cin >> check;
+        }
+        switch (check)
+        {
+        case 1:
             cout << "Выберете 0 - если труба в ремонте, 1 - если труба работоспособна" << endl;
-            int z;
-            cin >> z;
-            if(z == 1)
+            int isBreak;
+            cin >> isBreak;
+            while(isBreak < 0 | isBreak > 1)
+            {
+                cout << "Ошибка.\n" << "В работе ли труба?\n" << "Выберете 0 - если труба в ремонте, 1 - если труба работоспособна." << endl;
+                cin >> isBreak;   
+            }
+            if(isBreak == 1)
             {
                 p.pipe_tech = 1;
             }
@@ -191,13 +237,12 @@ void save_pipe_cs(const CS& ks, const PIPE& pipe)
 
 }
 
-void load_cs_pipe(CS cs, PIPE pipe)
+void load_cs_pipe(CS& cs, PIPE& pipe)
 {
     ifstream file("save.txt");
 
     if (file.is_open())
     {
-        file.ignore();
         getline(file, cs.name);
         file >> cs.num_workshops;
         file.ignore();
@@ -233,9 +278,14 @@ int main()
     CS cs;
     while (flag != 0)
     {
-        cout << "Выберите опцию\n" << "1 - создать трубу\n"  << "2 - редактировать трубу\n" << "3 - создать КС\n" << "4 - редактировать консоль\n" << "5 - посмотреть все элементы\n" << "6 - сохранить элементы\n"  << "7 - загрузить элементы\n" << "0 - выйти из программы" << endl;
+        cout << "Выберите опцию\n" << "1 - Создать трубу\n"  << "2 - Редактировать трубу\n" << "3 - Создать КС\n" << "4 - Редактировать КС\n" << "5 - Посмотреть все элементы\n" << "6 - Сохранить элементы\n"  << "7 - Загрузить элементы\n" << "0 - Выйти из программы" << endl;
         int option;
         cin >> option;
+        while(option < 0 | option > 7)
+        {
+            cout << "Ошибка.\n" << "Выберите опцию\n" << "1 - Создать трубу\n"  << "2 - Редактировать трубу\n" << "3 - Создать КС\n" << "4 - Редактировать КС\n" << "5 - Посмотреть все элементы\n" << "6 - Сохранить элементы\n"  << "7 - Загрузить элементы\n" << "0 - Выйти из программы" << endl;
+            cin >> option;
+        }
         switch (option)
         {
         case 1:
@@ -277,6 +327,7 @@ int main()
         case 7:
             system("clear");
             load_cs_pipe(cs, pipe);
+            break;
         case 0:
             flag = 0;
             break;
