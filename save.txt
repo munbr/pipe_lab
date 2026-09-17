@@ -1,9 +1,8 @@
-cs 2
-3
-mili
-3
-1 1 1 
-56
-1234
-trubochka
+chukcha
+123
+tren
+110
+truuba
+321
+123
 1
